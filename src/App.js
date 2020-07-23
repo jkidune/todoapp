@@ -1,34 +1,77 @@
 import React from 'react';
+import './App.css';
+import  ListItems from './listItems';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
-import styled from 'styled-components';
+
+library.add(faTrash);
 
 
-const Button = styled.button`
-cursor: pointer;
-background: transparent;
-font-size: 16px;
-border-radius: 3px;
-color: ${props => props.primary ? 'black' : 'palevioletred'};
-border: 2px solid palevioletred;
-margin: 0 1em;
-padding: 0.25em 1em;
-transition: 0.5s all ease-out;
 
-&:hover {
-  background-color: palevioletred;
-  color: white;
-}
-`
 
-function App() {
-  return (
-   <div>
-     <h1>Hello</h1>
-     <Button>Click me</Button>
-     <Button primary>Click here</Button>
-   </div>
+class App extends React.Component{  //we choose a current state based on things that will change//
+  
+  constructor(props){
+    super(props);               //we call our base class with super//
+    this.state={
+      items:[],
+      currentItem:{
+        text:'',
+        key:''
+      },
+     }
+     this.handleInput = this.handleInput.bind(this);  //we need to bind this to handleInput//
+     this.addItem = this.addItem.bind(this);
+     this.deleteItem = this.deleteItem.bind(this)
+  }
+  handleInput(e){
+    this.setState({          //we set state and inside we put an object that contain the variable that we want to change//
+      currentItem:{
+        text: e.target.value,
+        key:Date.now()
+      }
+    })
+  }
+  addItem(e) {
+    e.preventDefault();
+    const newItem = this.state.currentItem;
+    console.log(newItem);
+    if (newItem.text !== '') {
+      const items=[...this.state.items, newItem]  //add the current item then followed by new item,//
+      this.setState({
+        items: items,
+        currentItem: {
+          text:'',
+          key:''
+        },
+      })
+    }
+  }
 
-  );
+  deleteItem(key) {
+    const filteredItems = this.state.items.filter(item => item.key!==key);
+    this.setState({
+      items:filteredItems
+    })
+  }
+  render(){
+    return(
+      <div className="app">
+        <header>
+        <form id="form-input" onSubmit={this.addItem}>
+        <input type="text" placeholder="Type here" value={this.state.currentItem.text} onChange={this.handleInput} ref={this.inputElement}/>
+        <button type="submit">Add</button>
+        </form> 
+        
+
+      </header> 
+      <ListItems items={this.state.items} deleteItem ={this.deleteItem}></ListItems>
+      </div>  //we simply put functions to a attribute that we want to work on//
+      
+      
+    );
+  }
 }
 
 export default App;

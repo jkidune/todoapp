@@ -1,0 +1,29 @@
+.list {
+    color: white;
+    width: 300px;
+    background-color: rgb(50, 205, 120);
+    padding: 10px 10px;
+    margin: 10px auto;
+    height: 50px;
+    border-radius: 8px;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.list p {
+    padding: auto 10px;
+    position: relative;
+    
+}
+
+.list p span {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+}
+
+.faicons {
+    margin: 0 5px;
+    font-size: 15px;
+}
